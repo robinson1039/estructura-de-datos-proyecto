@@ -1,0 +1,25 @@
+from flask import Flask
+from sqlalchemy import text
+from routes.estudiantes_routes import estudiantes_routes
+from config.dbConfig import db, init_db
+
+app = Flask(__name__)
+
+init_db(app)
+
+@app.route('/')
+def home():
+    try:
+        db.session.execute(text('SELECT 1'))
+        print("Conexión a la base de datos exitosa")
+        return "Conexión a la base de datos exitosa"
+    except Exception as e:
+        print(f"Error al conectar a la base de datos: {e}")
+        return "Error al conectar a la base de datos"
+    
+app.register_blueprint(estudiantes_routes, url_prefix='/')
+
+if __name__ == "__main__":
+    with app.app_context():
+        db.create_all()  # Se crea la base de datos/tables cuando arranca el servidor
+    app.run(debug=True)
