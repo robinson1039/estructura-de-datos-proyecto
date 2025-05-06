@@ -61,3 +61,25 @@ def delete_estudiante(id):
     db.session.delete(estudiante)
     db.session.commit()
     return jsonify({"message": "Estudiante eliminado exitosamente"}), 200
+
+def buscar_estudiante():
+    nombre = request.args.get('nombre', '').strip()
+    cedula = request.args.get('cedula', '').strip()
+
+    query = Estudiante.query
+
+    if nombre and cedula:
+        query = query.filter(
+            Estudiante.nombre.ilike(f"%{nombre}%"),
+            Estudiante.cedula.ilike(f"%{cedula}%")
+        )
+    elif nombre:
+        query = query.filter(Estudiante.nombre.ilike(f"%{nombre}%"))
+    elif cedula:
+        query = query.filter(Estudiante.cedula.ilike(f"%{cedula}%"))
+    else:
+        # Si no hay parámetros, retornar lista vacía
+        return jsonify([])
+
+    estudiantes = query.all()
+    return jsonify([e.to_dict() for e in estudiantes])
