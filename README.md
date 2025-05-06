@@ -19,7 +19,8 @@ cd estructura-de-datos-proyecto
 
 Crear y activar entorno virtual
 python -m venv venv
-venv\Scripts\activate
+source venv/Scripts/activate
+python src/index.py
 
 Instalar dependencias
 pip install -r requirements.txt

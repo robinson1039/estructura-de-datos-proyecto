@@ -2,8 +2,11 @@ from flask import Flask
 from sqlalchemy import text
 from routes.estudiantes_routes import estudiantes_routes
 from config.dbConfig import db, init_db
+from flask_cors import CORS
 
 app = Flask(__name__)
+
+CORS(app, resources={r"/*": {"origins": "http://localhost:3000"}}, supports_credentials=True)  
 
 init_db(app)
 
