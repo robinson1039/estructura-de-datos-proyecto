@@ -3,15 +3,15 @@ import clienteAxios from "../../config/axios.js";
 import { useNavigate, Link } from "react-router-dom";
 import Swal from "sweetalert2";
 
-const AddEstudiantes = () => {
+const AddDesignStudent = () => {
   const navigate = useNavigate();
   const [estudiantes, saveEstudiantes] = useState({
     nombre: "",
     apellido: "",
     cedula: "",
     telefono: "",
-    semestre_actual: "",
-    promedio_acumulado: "",
+    modalidad_de_estudio: "",
+    cantidad_asignaturas: "",
     registrado: "",
   });
 
@@ -26,7 +26,10 @@ const AddEstudiantes = () => {
   const addStudent = async (e) => {
     e.preventDefault();
     try {
-      const response = await clienteAxios.post("/estudiantes", estudiantes);
+      const response = await clienteAxios.post(
+        "/diseño/estudiantes-diseño",
+        estudiantes
+      );
       console.log(response.data);
       const messageError =
         response.data?.message?.errors?.[0]?.msg ||
@@ -44,7 +47,7 @@ const AddEstudiantes = () => {
           title: "Registro exitoso",
           text: response.data.message,
         });
-        navigate("/estudiantes-ingenieria");
+        navigate("/estudiantes-diseño");
       }
     } catch (error) {
       console.error("Error al registrar el estudiante:", error);
@@ -61,7 +64,7 @@ const AddEstudiantes = () => {
     <div className="flex justify-center items-center min-h-screen bg-gray-100 p-4">
       <form
         onSubmit={addStudent}
-        className="bg-white p-6 rounded-2xl shadow-md w-full max-w-lg space-y-4 mx-auto"
+        className="bg-white p-6 rounded-2xl shadow-md w-full max-w-lg space-y-4"
       >
         <h2 className="text-xl font-bold text-center">
           Registro de Estudiantes
@@ -73,8 +76,9 @@ const AddEstudiantes = () => {
           </label>
           <input
             type="text"
-            name="cedula"
             id="cedula"
+            name="cedula"
+            placeholder="Cédula"
             onChange={updateEstate}
             className="w-full border border-gray-300 p-2 rounded"
             required
@@ -87,8 +91,9 @@ const AddEstudiantes = () => {
           </label>
           <input
             type="text"
-            name="nombre"
             id="nombre"
+            name="nombre"
+            placeholder="Nombre"
             onChange={updateEstate}
             className="w-full border border-gray-300 p-2 rounded"
             required
@@ -101,8 +106,9 @@ const AddEstudiantes = () => {
           </label>
           <input
             type="text"
-            name="apellido"
             id="apellido"
+            name="apellido"
+            placeholder="Apellido"
             onChange={updateEstate}
             className="w-full border border-gray-300 p-2 rounded"
             required
@@ -115,8 +121,9 @@ const AddEstudiantes = () => {
           </label>
           <input
             type="text"
-            name="telefono"
             id="telefono"
+            name="telefono"
+            placeholder="Teléfono"
             onChange={updateEstate}
             className="w-full border border-gray-300 p-2 rounded"
             required
@@ -125,15 +132,16 @@ const AddEstudiantes = () => {
 
         <div>
           <label
-            htmlFor="semestre_actual"
+            htmlFor="modalidad_de_estudio"
             className="block text-sm font-medium mb-1"
           >
-            Semestre actual
+            Modalidad de estudio
           </label>
           <input
             type="text"
-            name="semestre_actual"
-            id="semestre_actual"
+            id="modalidad_de_estudio"
+            name="modalidad_de_estudio"
+            placeholder="Modalidad de estudio"
             onChange={updateEstate}
             className="w-full border border-gray-300 p-2 rounded"
             required
@@ -142,24 +150,25 @@ const AddEstudiantes = () => {
 
         <div>
           <label
-            htmlFor="promedio_acumulado"
+            htmlFor="cantidad_asignaturas"
             className="block text-sm font-medium mb-1"
           >
-            Promedio acumulado
+            Asignaturas matriculadas
           </label>
           <input
             type="text"
-            name="promedio_acumulado"
-            id="promedio_acumulado"
+            id="cantidad_asignaturas"
+            name="cantidad_asignaturas"
+            placeholder="Asignaturas matriculadas"
             onChange={updateEstate}
             className="w-full border border-gray-300 p-2 rounded"
             required
           />
         </div>
 
-        <div className="mt-4 text-center">
+        <div className="mt-4">
           <Link
-            to="/estudiantes-ingenieria"
+            to="/estudiantes-diseño"
             className="px-6 py-3 bg-blue-600 text-white rounded-2xl hover:bg-blue-700 transition"
           >
             ¿Ya se encuentra registrado?
@@ -177,4 +186,4 @@ const AddEstudiantes = () => {
   );
 };
 
-export default AddEstudiantes;
+export default AddDesignStudent;

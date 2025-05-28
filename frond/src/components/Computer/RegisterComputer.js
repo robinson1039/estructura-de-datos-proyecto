@@ -3,30 +3,30 @@ import clienteAxios from "../../config/axios.js";
 import { useNavigate, Link } from "react-router-dom";
 import Swal from "sweetalert2";
 
-const AddEstudiantes = () => {
+const AddComputers = () => {
   const navigate = useNavigate();
-  const [estudiantes, saveEstudiantes] = useState({
-    nombre: "",
-    apellido: "",
-    cedula: "",
-    telefono: "",
-    semestre_actual: "",
-    promedio_acumulado: "",
+  const [computers, saveComputer] = useState({
+    serial: "",
+    marca: "",
+    tamaño: "",
+    precio: "",
+    sistema_operativo: "",
+    procesador: "",
     registrado: "",
   });
 
   const updateEstate = async (e) => {
-    saveEstudiantes({
-      ...estudiantes,
+    saveComputer({
+      ...computers,
       [e.target.name]: e.target.value,
     });
     console.log(e.target.name + ":" + e.target.value);
   };
 
-  const addStudent = async (e) => {
+  const addComputer = async (e) => {
     e.preventDefault();
     try {
-      const response = await clienteAxios.post("/estudiantes", estudiantes);
+      const response = await clienteAxios.post("/pcs/computadoras", computers);
       console.log(response.data);
       const messageError =
         response.data?.message?.errors?.[0]?.msg ||
@@ -44,10 +44,10 @@ const AddEstudiantes = () => {
           title: "Registro exitoso",
           text: response.data.message,
         });
-        navigate("/estudiantes-ingenieria");
+        navigate("/computadoras");
       }
     } catch (error) {
-      console.error("Error al registrar el estudiante:", error);
+      console.error("Error al registrar la computadora:", error);
       Swal.fire({
         icon: "error",
         title: "Error",
@@ -60,21 +60,21 @@ const AddEstudiantes = () => {
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100 p-4">
       <form
-        onSubmit={addStudent}
-        className="bg-white p-6 rounded-2xl shadow-md w-full max-w-lg space-y-4 mx-auto"
+        onSubmit={addComputer}
+        className="bg-white p-6 rounded-2xl shadow-md w-full max-w-lg space-y-4"
       >
         <h2 className="text-xl font-bold text-center">
-          Registro de Estudiantes
+          Registro de computadora
         </h2>
 
         <div>
-          <label htmlFor="cedula" className="block text-sm font-medium mb-1">
-            Cédula
+          <label htmlFor="serial" className="block text-sm font-medium mb-1">
+            Serial
           </label>
           <input
             type="text"
-            name="cedula"
-            id="cedula"
+            name="serial"
+            id="serial"
             onChange={updateEstate}
             className="w-full border border-gray-300 p-2 rounded"
             required
@@ -82,13 +82,13 @@ const AddEstudiantes = () => {
         </div>
 
         <div>
-          <label htmlFor="nombre" className="block text-sm font-medium mb-1">
-            Nombre
+          <label htmlFor="marca" className="block text-sm font-medium mb-1">
+            Marca
           </label>
           <input
             type="text"
-            name="nombre"
-            id="nombre"
+            name="marca"
+            id="marca"
             onChange={updateEstate}
             className="w-full border border-gray-300 p-2 rounded"
             required
@@ -96,13 +96,13 @@ const AddEstudiantes = () => {
         </div>
 
         <div>
-          <label htmlFor="apellido" className="block text-sm font-medium mb-1">
-            Apellido
+          <label htmlFor="tamaño" className="block text-sm font-medium mb-1">
+            Tamaño
           </label>
           <input
             type="text"
-            name="apellido"
-            id="apellido"
+            name="tamaño"
+            id="tamaño"
             onChange={updateEstate}
             className="w-full border border-gray-300 p-2 rounded"
             required
@@ -110,30 +110,13 @@ const AddEstudiantes = () => {
         </div>
 
         <div>
-          <label htmlFor="telefono" className="block text-sm font-medium mb-1">
-            Teléfono
+          <label htmlFor="precio" className="block text-sm font-medium mb-1">
+            Precio
           </label>
           <input
             type="text"
-            name="telefono"
-            id="telefono"
-            onChange={updateEstate}
-            className="w-full border border-gray-300 p-2 rounded"
-            required
-          />
-        </div>
-
-        <div>
-          <label
-            htmlFor="semestre_actual"
-            className="block text-sm font-medium mb-1"
-          >
-            Semestre actual
-          </label>
-          <input
-            type="text"
-            name="semestre_actual"
-            id="semestre_actual"
+            name="precio"
+            id="precio"
             onChange={updateEstate}
             className="w-full border border-gray-300 p-2 rounded"
             required
@@ -142,39 +125,55 @@ const AddEstudiantes = () => {
 
         <div>
           <label
-            htmlFor="promedio_acumulado"
+            htmlFor="sistema_operativo"
             className="block text-sm font-medium mb-1"
           >
-            Promedio acumulado
+            Sistema Operativo
           </label>
           <input
             type="text"
-            name="promedio_acumulado"
-            id="promedio_acumulado"
+            name="sistema_operativo"
+            id="sistema_operativo"
             onChange={updateEstate}
             className="w-full border border-gray-300 p-2 rounded"
             required
           />
         </div>
 
-        <div className="mt-4 text-center">
+        <div>
+          <label
+            htmlFor="procesador"
+            className="block text-sm font-medium mb-1"
+          >
+            Procesador
+          </label>
+          <input
+            type="text"
+            name="procesador"
+            id="procesador"
+            onChange={updateEstate}
+            className="w-full border border-gray-300 p-2 rounded"
+            required
+          />
+        </div>
+
+        <div className="mt-4 flex justify-between">
           <Link
-            to="/estudiantes-ingenieria"
-            className="px-6 py-3 bg-blue-600 text-white rounded-2xl hover:bg-blue-700 transition"
+            to="/computadoras"
+            className="px-6 py-2 bg-red-600 text-white rounded-2xl hover:bg-red-700 transition"
           >
-            ¿Ya se encuentra registrado?
+            Cancelar
           </Link>
+          <button
+            type="submit"
+            className="px-6 py-2 bg-blue-600 text-white rounded-2xl hover:bg-blue-700 transition"
+          >
+            Enviar
+          </button>
         </div>
-
-        <button
-          type="submit"
-          className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition"
-        >
-          Enviar
-        </button>
       </form>
     </div>
   );
 };
 
-export default AddEstudiantes;
+export default AddComputers;

@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import clienteAxios from "../../config/axios";
 import Swal from "sweetalert2";
 
-const EditarEstudiante = () => {
+const EditarEstudianteDiseño = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [estudiante, setEstudiante] = useState({
@@ -11,14 +11,14 @@ const EditarEstudiante = () => {
     apellido: "",
     cedula: "",
     telefono: "",
-    semestre_actual: "",
-    promedio_acumulado: "",
+    modalidad_de_estudio: "",
+    cantidad_asignaturas: "",
   });
 
   useEffect(() => {
     const fetchEstudiante = async () => {
       try {
-        const response = await clienteAxios.get(`/estudiantes/${id}`);
+        const response = await clienteAxios.get(`/diseño/estudiantes-diseño/${id}`);
         setEstudiante(response.data);
       } catch (error) {
         console.error("Error al cargar estudiante:", error);
@@ -38,9 +38,9 @@ const EditarEstudiante = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await clienteAxios.put(`/estudiantes/${id}`, estudiante);
+      const response = await clienteAxios.put(`/diseño/estudiantes-diseño/${id}`, estudiante);
       Swal.fire("Actualizado", response.data.message, "success");
-      navigate("/estudiantes-ingenieria");
+      navigate("/estudiantes-diseño");
     } catch (error) {
       console.error("Error al actualizar:", error);
       Swal.fire("Error", "No se pudo actualizar el estudiante", "error");
@@ -51,7 +51,7 @@ const EditarEstudiante = () => {
     <div className="p-6 bg-gray-100 min-h-screen">
       <h2 className="text-2xl font-bold mb-4 text-center">Editar Estudiante</h2>
       <form onSubmit={handleSubmit} className="bg-white shadow rounded p-6 max-w-lg mx-auto">
-        {["nombre", "apellido", "cedula", "telefono", "semestre_actual", "promedio_acumulado"].map((campo) => (
+        {["nombre", "apellido", "cedula", "telefono", "modalidad_de_estudio", "cantidad_asignaturas"].map((campo) => (
           <div key={campo} className="mb-4">
             <label className="block font-semibold capitalize mb-1">{campo.replace("_", " ")}</label>
             <input
@@ -75,4 +75,4 @@ const EditarEstudiante = () => {
   );
 };
 
-export default EditarEstudiante;
+export default EditarEstudianteDiseño;
