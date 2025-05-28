@@ -14,7 +14,7 @@ const Home = () => {
         </Link>
   
         <Link
-          to="/estudiantes"
+          to="/estudiantes-diseño"
           className="px-6 py-3 bg-green-600 text-white rounded-2xl hover:bg-green-700 transition"
         >
           Yo soy estudiante de diseño

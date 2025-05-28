@@ -1,6 +1,5 @@
 from config.dbConfig import db
 
-
 class Estudiante(db.Model):
     __tablename__ = 'estudiantes'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -10,8 +9,9 @@ class Estudiante(db.Model):
     telefono = db.Column(db.String(50), nullable=False)
     semestre_actual = db.Column(db.Integer, nullable=True)
     promedio_acumulado = db.Column(db.Float, nullable=True)
-    serial = db.Column(db.String(50), nullable=False)
-
+    serial = db.Column(db.String(50), db.ForeignKey('pcs.serial'), nullable=True)
+    pc_asignado = db.Column(db.Boolean, default=False)
+    
 
     def to_dict(self):
         return {
@@ -22,5 +22,6 @@ class Estudiante(db.Model):
             'telefono': self.telefono,
             'semestre_actual': self.semestre_actual,
             'promedio_acumulado': self.promedio_acumulado,
-            'serial': self.serial
+            'serial': self.serial,
+            'pc_asignado': self.pc_asignado
         }
