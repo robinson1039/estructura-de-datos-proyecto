@@ -30,7 +30,18 @@ FLASK_APP=src/index.py
 FLASK_ENV=development
 DATABASE_URL=postgresql://usuario:contraseña@localhost:5432/tu_basededatos
 
-Para crear las tablas usar las siguientes sentencias SQL
+Para crear las tablas usar las siguientes sentencias SQL crear en ese orden
+
+CREATE TABLE pcs (
+    id SERIAL PRIMARY KEY,
+    serial VARCHAR(50) NOT NULL UNIQUE,
+    marca VARCHAR(50) NOT NULL,
+    tamaño FLOAT NOT NULL,
+    precio FLOAT NOT NULL,
+    sistema_operativo VARCHAR(50) NOT NULL,
+    procesador VARCHAR(50) NOT NULL,
+    disponible BOOLEAN DEFAULT TRUE
+);
 
 CREATE TABLE estudiantes (
     id SERIAL PRIMARY KEY,
@@ -43,17 +54,6 @@ CREATE TABLE estudiantes (
     serial VARCHAR(50),
     pc_asignado BOOLEAN DEFAULT FALSE,
     CONSTRAINT fk_pc_serial FOREIGN KEY (serial) REFERENCES pcs(serial)
-);
-
-CREATE TABLE pcs (
-    id SERIAL PRIMARY KEY,
-    serial VARCHAR(50) NOT NULL UNIQUE,
-    marca VARCHAR(50) NOT NULL,
-    tamaño FLOAT NOT NULL,
-    precio FLOAT NOT NULL,
-    sistema_operativo VARCHAR(50) NOT NULL,
-    procesador VARCHAR(50) NOT NULL,
-    disponible BOOLEAN DEFAULT TRUE
 );
 
 CREATE TABLE tablets (
