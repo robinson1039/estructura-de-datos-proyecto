@@ -3,8 +3,8 @@ from dotenv import load_dotenv
 import os
 
 load_dotenv()
-
 db = SQLAlchemy()
+
 
 def init_db(app):
     app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DB_URI')
