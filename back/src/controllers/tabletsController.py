@@ -96,7 +96,7 @@ def rentar_tablet_a_estudiante():
         return jsonify({"error": "Tablet no encontrada"}), 404
 
     if not tablet.disponible:
-        return jsonify({"error": "La Tablet ya está rentada"}), 400
+        return jsonify({"error": "El Tablet ya está rentada"}), 400
 
     # Obtener el estudiante
     estudiante = DesignStudents.query.get(estudiante_id)
@@ -104,12 +104,13 @@ def rentar_tablet_a_estudiante():
         return jsonify({"error": "Estudiante no encontrado"}), 404
 
     # Asignar el serial de la Tablet al estudiante (o el campo que uses para vincular)
-    estudiante.serial = tablet.serial  # o estudiante.tablet_id = tablet.id si usas esa relación
+    estudiante.fk_serial = tablet.serial  # o estudiante.tablet_id = tablet.id si usas esa relación
     estudiante.tablet_asignado = True # Cambia esto a True si el estudiante ya tiene una Tablet asignada
-    # Marcar la Tablet como no disponible
+    # Marcar la tablet como no disponible
     tablet.disponible = False
 
     db.session.commit()
+
     return jsonify({"message": "Tablet rentada correctamente"}), 200
 
 
@@ -138,7 +139,7 @@ def devolver_tablet():
     if not tablet:
         return jsonify({"error": "Tablet no encontrada"}), 404
 
-    estudiante.serial = None
+    estudiante.fk_serial = None
     estudiante.tablet_asignado = False
     tablet.disponible = True
     db.session.commit()
@@ -163,6 +164,7 @@ def update_tablet(id):
     tablet.peso = data.get('peso', tablet.peso)
 
     db.session.commit()
+
     return jsonify(tablet.to_dict()), 200
 
 
