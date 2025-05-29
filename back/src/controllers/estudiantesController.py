@@ -3,14 +3,18 @@ from flask import request, jsonify
 from models.EstudiantesModel import db, Estudiante
 from models.PcModel import Pcs
 
+
 def solo_letras(texto):
     return bool(re.fullmatch(r'[A-Za-zÁÉÍÓÚáéíóúñÑ ]+', texto))
+
 
 def solo_numeros(texto):
     return bool(re.fullmatch(r'\d+', texto))
 
+
 def sin_caracteres_especiales(texto):
     return bool(re.fullmatch(r'[A-Za-z0-9 ]+', texto))
+
 
 def es_entero(valor):
     try:
@@ -18,6 +22,7 @@ def es_entero(valor):
         return True
     except (ValueError, TypeError):
         return False
+
 
 def es_decimal(valor):
     try:
@@ -29,9 +34,9 @@ def es_decimal(valor):
 
 def create_estudiante():
     data = request.get_json()
-    
+
     cedula = data.get('cedula')
-    nombre = data.get('nombre')     
+    nombre = data.get('nombre')
     apellido = data.get('apellido')
     telefono = data.get('telefono')
     semestre_actual = data.get('semestre_actual')
@@ -40,7 +45,7 @@ def create_estudiante():
 
     if not all([cedula, nombre, apellido, telefono, semestre_actual, promedio_acumulado]):
         return jsonify({"error": "Faltan datos requeridos"}), 400
-    
+
     if not solo_numeros(cedula):
         return jsonify({"error": "La cédula solo debe contener números"}), 400
     if not solo_letras(nombre):
@@ -53,7 +58,7 @@ def create_estudiante():
         return jsonify({"error": "El semestre actual debe ser un número entero"}), 400
     if not es_decimal(promedio_acumulado):
         return jsonify({"error": "El promedio acumulado debe ser un número decimal"}), 400
-    
+
     nuevo_estudiante = Estudiante(
         cedula=cedula,
         nombre=nombre,
@@ -71,13 +76,16 @@ def create_estudiante():
         "message": "Estudiante creado exitosamente",
     }), 201
 
+
 def get_estudiantes():
     estudiantes = Estudiante.query.all()
     return jsonify([estudiante.to_dict() for estudiante in estudiantes]), 200
 
+
 def get_estudiante(id):
     estudiante = Estudiante.query.get_or_404(id)
     return jsonify(estudiante.to_dict()), 200
+
 
 def update_estudiante(id):
     data = request.get_json()
@@ -101,11 +109,13 @@ def update_estudiante(id):
 
     return jsonify(estudiante.to_dict()), 200
 
+
 def delete_estudiante(id):
     estudiante = Estudiante.query.get_or_404(id)
     db.session.delete(estudiante)
     db.session.commit()
     return jsonify({"message": "Estudiante eliminado exitosamente"}), 200
+
 
 def buscar_estudiante():
     nombre = request.args.get('nombre', '').strip()
@@ -125,7 +135,7 @@ def buscar_estudiante():
     else:
         # Si no hay parámetros, retornar lista vacía
         return jsonify([])
-    
+
 
     estudiantes = query.all()
     if not estudiantes:

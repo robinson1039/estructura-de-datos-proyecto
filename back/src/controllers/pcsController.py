@@ -3,14 +3,18 @@ from flask import request, jsonify
 from models.PcModel import db, Pcs
 from models.EstudiantesModel import Estudiante
 
+
 def solo_letras(texto):
     return bool(re.fullmatch(r'[A-Za-zÁÉÍÓÚáéíóúñÑ ]+', texto))
+
 
 def solo_numeros(texto):
     return bool(re.fullmatch(r'\d+', texto))
 
+
 def sin_caracteres_especiales(texto):
     return bool(re.fullmatch(r'[A-Za-z0-9 ]+', texto))
+
 
 def es_entero(valor):
     try:
@@ -19,6 +23,7 @@ def es_entero(valor):
     except (ValueError, TypeError):
         return False
 
+
 def es_decimal(valor):
     try:
         float(valor)
@@ -26,11 +31,12 @@ def es_decimal(valor):
     except (ValueError, TypeError):
         return False
 
+
 def create_pc():
     data = request.get_json()
-    
+
     serial = data.get('serial')
-    marca = data.get('marca')     
+    marca = data.get('marca')
     tamaño = data.get('tamaño')
     precio = data.get('precio')
     sistema_operativo = data.get('sistema_operativo')
@@ -39,7 +45,6 @@ def create_pc():
 
     if not all([serial, marca, tamaño, precio, sistema_operativo, procesador]):
         return jsonify({"error": "Faltan datos requeridos"}), 400
-    
     if not solo_letras(marca):
         return jsonify({"error": "La marca solo debe contener letras"}), 400
     if not es_decimal(tamaño):
@@ -67,19 +72,22 @@ def create_pc():
         "message": "Estudiante creado exitosamente",
     }), 201
 
+
 def show_pcs():
     pcs = Pcs.query.all()
     return jsonify([pcs.to_dict() for pcs in pcs]), 200
 
+
 def get_computer(id):
     computer = Pcs.query.get_or_404(id)
-    return jsonify(computer.to_dict()), 200  
+    return jsonify(computer.to_dict()), 200
+
 
 def rentar_pc_a_estudiante():
     data = request.get_json()
     pc_id = data.get('pc_id')
     estudiante_id = data.get('estudiante_id')
-    
+
     if not pc_id or not estudiante_id:
         return jsonify({"error": "Faltan el ID del PC o del estudiante"}), 400
 
@@ -106,6 +114,7 @@ def rentar_pc_a_estudiante():
 
     return jsonify({"message": "PC rentado correctamente"}), 200
 
+
 def devolver_pc():
     data = request.get_json()
     serial = data.get('serial')
@@ -113,16 +122,16 @@ def devolver_pc():
     print(data)
     if not estudiante_id or not serial:
         return jsonify({"error": "Faltan el ID del PC o del estudiante"}), 400
-    
+
     estudiante = Estudiante.query.get(estudiante_id)
 
     if not estudiante:
         return jsonify({"error": "Estudiante no encontrado"}), 404
-    
+
     pc = Pcs.query.filter_by(serial=serial).first()
     if not pc:
         return jsonify({"error": "PC no encontrado"}), 404
-    
+
     estudiante.serial = None
     estudiante.pc_asignado = False
     pc.disponible = True
@@ -130,11 +139,13 @@ def devolver_pc():
 
     return jsonify({"message": "PC devuelto correctamente"}), 200
 
+
 def eliminar_Pc(id):
     pc = Pcs.query.get_or_404(id)
     db.session.delete(pc)
-    db.session.commit() 
-    return jsonify({"message": "Computador eliminado exitosamente"}), 200   
+    db.session.commit()
+    return jsonify({"message": "Computador eliminado exitosamente"}), 200
+
 
 def update_pc(id):
     data = request.get_json()
@@ -147,10 +158,9 @@ def update_pc(id):
     pc.sistema_operativo = data.get('sistema_operativo', pc.sistema_operativo)
     pc.procesador = data.get('procesador', pc.procesador)
 
-
     db.session.commit()
-
     return jsonify(pc.to_dict()), 200
+
 
 def buscar_pc():
     marca = request.args.get('marca', '').strip()
@@ -168,12 +178,10 @@ def buscar_pc():
     elif serial:
         query = query.filter(Pcs.serial.ilike(f"%{serial}%"))
     else:
-        
         return jsonify([])
 
     pc = query.all()
 
     if not pc:
         return jsonify({"mensaje": "PC no encontrada"}), 404
-    
     return jsonify([e.to_dict() for e in pc]), 200

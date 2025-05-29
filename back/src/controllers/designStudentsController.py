@@ -1,16 +1,20 @@
-import re 
+import re
 from flask import request, jsonify
-from models.DesignStudentsModel import db, DesignStudents 
+from models.DesignStudentsModel import db, DesignStudents
 from models.TabletModel import Tablet
+
 
 def solo_letras(texto):
     return bool(re.fullmatch(r'[A-Za-zÁÉÍÓÚáéíóúñÑ ]+', texto))
 
+
 def solo_numeros(texto):
     return bool(re.fullmatch(r'\d+', texto))
 
+
 def sin_caracteres_especiales(texto):
     return bool(re.fullmatch(r'[A-Za-z0-9 ]+', texto))
+
 
 def es_entero(valor):
     try:
@@ -19,6 +23,7 @@ def es_entero(valor):
     except (ValueError, TypeError):
         return False
 
+
 def es_decimal(valor):
     try:
         float(valor)
@@ -26,21 +31,21 @@ def es_decimal(valor):
     except (ValueError, TypeError):
         return False
 
+
 def create_designStudent():
-    
     data = request.get_json()
     print(data)
+
     cedula = data.get('cedula')
-    nombre = data.get('nombre')     
+    nombre = data.get('nombre')
     apellido = data.get('apellido')
     telefono = data.get('telefono')
     modalidad_de_estudio = data.get('modalidad_de_estudio')
     cantidad_asignaturas = data.get('cantidad_asignaturas')
-    FK_serial = data.get('serial')
+    serial = data.get('serial')
 
     if not all([cedula, nombre, apellido, telefono, modalidad_de_estudio, cantidad_asignaturas]):
         return jsonify({"error": "Faltan datos requeridos"}), 400
-    
     if not solo_numeros(cedula):
         return jsonify({"error": "La cédula solo debe contener números"}), 400
     if not solo_letras(nombre):
@@ -54,7 +59,7 @@ def create_designStudent():
     if not es_entero(cantidad_asignaturas):
         return jsonify({"error": "La cantidas de asginaturas solo debe contener numeros"}), 400
 
-    
+
     new_designStudent = DesignStudents(
         cedula=cedula,
         nombre=nombre,
@@ -62,7 +67,7 @@ def create_designStudent():
         telefono=telefono,
         modalidad_de_estudio=modalidad_de_estudio,
         cantidad_asignaturas=cantidad_asignaturas,
-        FK_serial = FK_serial or None,
+        serial=serial or None,
     )
     db.session.add(new_designStudent)
     db.session.commit()
@@ -72,13 +77,16 @@ def create_designStudent():
         "message": "Estudiante creado exitosamente",
     }), 201
 
+
 def get_designsStudent():
     estudiantesDiseño = DesignStudents.query.all()
     return jsonify([estudianteDiseño.to_dict() for estudianteDiseño in estudiantesDiseño]), 200
 
+
 def get_designStudent(id):
     estudianteDiseño = DesignStudents.query.get_or_404(id)
     return jsonify(estudianteDiseño.to_dict()), 200
+
 
 def update_designStudent(id):
     data = request.get_json()
@@ -97,16 +105,18 @@ def update_designStudent(id):
             tablet.disponible = False  # Lo marcas como rentado
         else:
             return jsonify({'error': 'La tablet no está disponible'}), 400
+    print("Datos recibidos update", data)
 
     db.session.commit()
-
     return jsonify(estudianteDiseño.to_dict()), 200
+
 
 def delete_designStudent(id):
     estudianteDiseño = DesignStudents.query.get_or_404(id)
     db.session.delete(estudianteDiseño)
     db.session.commit()
     return jsonify({"message": "Estudiante eliminado exitosamente"}), 200
+
 
 def search_designStudent():
     nombre = request.args.get('nombre', '').strip()
