@@ -12,6 +12,7 @@ app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "http://localhost:3000"}}, supports_credentials=True)
 init_db(app)
 
+
 @app.route('/')
 def home():
     try:
@@ -26,6 +27,7 @@ app.register_blueprint(estudiantes_routes, url_prefix='/')
 app.register_blueprint(pcs_routes, url_prefix='/pcs')
 app.register_blueprint(tablets_routes, url_prefix='/tab')
 app.register_blueprint(designStudents_routes, url_prefix='/diseño')
+
 
 if __name__ == "__main__":
     with app.app_context():
