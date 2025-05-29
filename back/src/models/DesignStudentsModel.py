@@ -10,7 +10,7 @@ class DesignStudents(db.Model):
     telefono = db.Column(db.String(50), nullable=False)
     modalidad_de_estudio = db.Column(db.String(50), nullable=True)
     cantidad_asignaturas = db.Column(db.Integer, nullable=True)
-    serial = db.Column(db.String(50), db.ForeignKey('tablets.serial'), nullable=True)
+    fk_serial = db.Column(db.String(50), db.ForeignKey('tablets.serial'), nullable=True)
     tablet_asignado = db.Column(db.Boolean, default=False)
 
 
@@ -23,6 +23,6 @@ class DesignStudents(db.Model):
             'telefono': self.telefono,
             'modalidad_de_estudio': self.modalidad_de_estudio,
             'cantidad_asignaturas': self.cantidad_asignaturas,
-            'serial': self.serial,
+            'fk_serial': self.fk_serial,
             'tablet_asignado': self.tablet_asignado
         }

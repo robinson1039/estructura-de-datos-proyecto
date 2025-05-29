@@ -95,7 +95,7 @@ const EstudiantesDiseño = () => {
     console.log("Devolviendo tablet para el estudiante:", student);
     try {
       await clienteAxios.put("/tab/tablets/devolver", {
-        serial: student.serial,
+        serial: student.fk_serial,
         estudiante_id: student.id,
       });
       Swal.fire({
@@ -173,35 +173,35 @@ const EstudiantesDiseño = () => {
       </div>
 
       <div className="overflow-x-auto">
-        <table className="w-full bg-white rounded-lg shadow">
+        <table className="w-full bg-white rounded-lg shadow text-center">
           <thead className="bg-blue-100">
             <tr>
-              <th className="px-4 py-2 text-center">Cédula</th>
-              <th className="px-4 py-2 text-center">Nombre</th>
-              <th className="px-4 py-2 text-center">Apellido</th>
-              <th className="px-4 py-2 text-center">Teléfono</th>
-              <th className="px-4 py-2 text-center">Modalidad de estudio</th>
-              <th className="px-4 py-2 text-center">Asignaturas matriculadas</th>
-              <th className="px-4 py-2 text-center">Serial</th>
-              <th className="px-4 py-2 text-center">Tiene tablet asignada</th>
-              <th className="px-4 py-2 text-center">Acciones</th>
+              <th className="px-4 py-2">Cédula</th>
+              <th className="px-4 py-2">Nombre</th>
+              <th className="px-4 py-2">Apellido</th>
+              <th className="px-4 py-2">Teléfono</th>
+              <th className="px-4 py-2">Modalidad de estudio</th>
+              <th className="px-4 py-2">Asignaturas matriculadas</th>
+              <th className="px-4 py-2">Serial</th>
+              <th className="px-4 py-2">Tiene tablet asignada</th>
+              <th className="px-4 py-2">Acciones</th>
             </tr>
           </thead>
           <tbody>
             {resultado.length > 0 || Estudents.length > 0 ? (
               (resultado.length > 0 ? resultado : Estudents).map((student) => (
                 <tr key={student.id}>
-                  <td className="px-4 py-2 text-center">{student.cedula}</td>
-                  <td className="px-4 py-2 text-center">{student.nombre}</td>
-                  <td className="px-4 py-2 text-center">{student.apellido}</td>
-                  <td className="px-4 py-2 text-center">{student.telefono}</td>
-                  <td className="px-4 py-2 text-center">{student.modalidad_de_estudio}</td>
-                  <td className="px-4 py-2 text-center">{student.cantidad_asignaturas}</td>
-                  <td className="px-4 py-2 text-center">{student.serial ? student.serial : "-"}</td>
-                  <td className="px-4 py-2 text-center">
+                  <td className="px-4 py-2">{student.cedula}</td>
+                  <td className="px-4 py-2">{student.nombre}</td>
+                  <td className="px-4 py-2">{student.apellido}</td>
+                  <td className="px-4 py-2">{student.telefono}</td>
+                  <td className="px-4 py-2">{student.modalidad_de_estudio}</td>
+                  <td className="px-4 py-2">{student.cantidad_asignaturas}</td>
+                  <td className="px-4 py-2">{student.fk_serial ? student.fk_serial : "-"}</td>
+                  <td className="px-4 py-2">
                     {student.tablet_asignado ? "Sí" : "No"}
                   </td>
-                  <td className="px-4 py-2 text-center">
+                  <td className="px-4 py-2">
                     <div className="flex gap-2 justify-center flex-wrap">
                       <Link
                         to={`/editar-estudiante-diseño/${student.id}`}
