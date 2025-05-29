@@ -75,7 +75,7 @@ CREATE TABLE "designStudents" (
     telefono VARCHAR(50) NOT NULL,
     modalidad_de_estudio VARCHAR(50),
     cantidad_asignaturas INTEGER,
-    FK_serial VARCHAR(50),
+    serial VARCHAR(50),
     tablet_asignado BOOLEAN DEFAULT FALSE,
-    CONSTRAINT fk_tablets_serial FOREIGN KEY (FK_serial) REFERENCES tablets(serial)
+    CONSTRAINT fk_tablets_serial FOREIGN KEY (serial) REFERENCES tablets(serial)
 );
