@@ -72,7 +72,7 @@ const EditarComputadora = () => {
                   <option value="">Seleccione un sistema operativo</option>
                   <option value="Windows 7">Windows 7</option>
                   <option value="Windows 10">Windows 10</option>
-                  <option value="Windows 1|">Windows 11</option>
+                  <option value="Windows 11">Windows 11</option>
                   <option value="Linux">Linux</option>
                   <option value="macOS">macOS</option>
                   <option value="Ubuntu">Ubuntu</option>
