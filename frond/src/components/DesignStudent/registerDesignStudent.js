@@ -26,10 +26,7 @@ const AddDesignStudent = () => {
   const addStudent = async (e) => {
     e.preventDefault();
     try {
-      const response = await clienteAxios.post(
-        "/diseño/estudiantes-diseño",
-        estudiantes
-      );
+      const response = await clienteAxios.post("/diseño/estudiantes-diseño", estudiantes);
       console.log(response.data);
       const messageError =
         response.data?.message?.errors?.[0]?.msg ||
@@ -51,10 +48,13 @@ const AddDesignStudent = () => {
       }
     } catch (error) {
       console.error("Error al registrar el estudiante:", error);
+      console.log("Respuesta del backend:", error.response?.data);
       Swal.fire({
         icon: "error",
         title: "Error",
-        text: error.response?.data?.error || "Error desconocido",
+        text: error.response?.data?.message ||
+          error.response?.data?.error ||
+          JSON.stringify(error.response?.data) || "Error desconocido",
         confirmButtonColor: "###3085d6",
       });
     }
@@ -137,7 +137,7 @@ const AddDesignStudent = () => {
           >
             Modalidad de estudio
           </label>
-          <input
+          <select
             type="text"
             id="modalidad_de_estudio"
             name="modalidad_de_estudio"
@@ -145,7 +145,12 @@ const AddDesignStudent = () => {
             onChange={updateEstate}
             className="w-full border border-gray-300 p-2 rounded"
             required
-          />
+          >
+            <option value="">Seleccione una modalidad</option>
+            <option value="Presencial">Presencial</option>
+            <option value="Virtual">Virtual</option>
+            <option value="Híbrida">Híbrida</option>
+          </select>
         </div>
 
         <div>
@@ -166,7 +171,7 @@ const AddDesignStudent = () => {
           />
         </div>
 
-        <div className="mt-4">
+        <div className="mt-4 text-center">
           <Link
             to="/estudiantes-diseño"
             className="px-6 py-3 bg-blue-600 text-white rounded-2xl hover:bg-blue-700 transition"

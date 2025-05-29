@@ -63,9 +63,7 @@ const AddComputers = () => {
         onSubmit={addComputer}
         className="bg-white p-6 rounded-2xl shadow-md w-full max-w-lg space-y-4"
       >
-        <h2 className="text-xl font-bold text-center">
-          Registro de computadora
-        </h2>
+        <h2 className="text-xl font-bold text-center">Registro de computadora</h2>
 
         <div>
           <label htmlFor="serial" className="block text-sm font-medium mb-1">
@@ -124,37 +122,50 @@ const AddComputers = () => {
         </div>
 
         <div>
-          <label
-            htmlFor="sistema_operativo"
-            className="block text-sm font-medium mb-1"
-          >
+          <label htmlFor="sistema_operativo" className="block text-sm font-medium mb-1">
             Sistema Operativo
           </label>
-          <input
-            type="text"
-            name="sistema_operativo"
+          <select
             id="sistema_operativo"
+            name="sistema_operativo"
+            type="text"
             onChange={updateEstate}
             className="w-full border border-gray-300 p-2 rounded"
             required
-          />
+          >
+            <option value="">Seleccione un sistema operativo</option>
+            <option value="Windows 7">Windows 7</option>
+            <option value="Windows 10">Windows 10</option>
+            <option value="Windows 11">Windows 11</option>
+            <option value="Linux">Linux</option>
+            <option value="macOS">macOS</option>
+            <option value="Ubuntu">Ubuntu</option>
+            <option value="Fedora">Fedora</option>
+          </select>
         </div>
 
         <div>
-          <label
-            htmlFor="procesador"
-            className="block text-sm font-medium mb-1"
-          >
+          <label htmlFor="procesador" className="block text-sm font-medium mb-1">
             Procesador
           </label>
-          <input
-            type="text"
-            name="procesador"
+          <select
             id="procesador"
+            name="procesador"
+            type="text"
             onChange={updateEstate}
             className="w-full border border-gray-300 p-2 rounded"
             required
-          />
+          >
+            <option value="">Seleccione un procesador</option>
+            <option value="AMD Ryzen 5">AMD Ryzen 5</option>
+            <option value="AMD Ryzen 7">AMD Ryzen 7</option>
+            <option value="Intel Core i3">Intel Core i3</option>
+            <option value="Intel Core i5">Intel Core i5</option>
+            <option value="Intel Core i7">Intel Core i7</option>
+            <option value="AMD Ryzen 3">AMD Ryzen 3</option>
+            <option value="Apple M1">Apple M1</option>
+            <option value="Apple M2">Apple M2</option>
+          </select>
         </div>
 
         <div className="mt-4 flex justify-between">

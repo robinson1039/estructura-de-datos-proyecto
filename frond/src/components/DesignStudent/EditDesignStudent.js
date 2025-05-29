@@ -54,13 +54,29 @@ const EditarEstudianteDiseño = () => {
         {["nombre", "apellido", "cedula", "telefono", "modalidad_de_estudio", "cantidad_asignaturas"].map((campo) => (
           <div key={campo} className="mb-4">
             <label className="block font-semibold capitalize mb-1">{campo.replace("_", " ")}</label>
-            <input
-              type="text"
-              name={campo}
-              value={estudiante[campo]}
-              onChange={handleChange}
-              className="w-full border border-gray-300 p-2 rounded"
-            />
+
+            { campo === "modalidad_de_estudio" ? (
+              <select
+                name={campo}
+                value={estudiante[campo]}
+                onChange={handleChange}
+                className="w-full border border-gray-300 p-2 rounded"
+                required
+              >
+                <option value="">Seleccione una modalidad</option>
+                <option value="Presencial">Presencial</option>
+                <option value="Virtual">Virtual</option>
+                <option value="Híbrida">Híbrida</option>
+              </select>
+            ) : (
+              <input
+                type="text"
+                name={campo}
+                value={estudiante[campo]}
+                onChange={handleChange}
+                className="w-full border border-gray-300 p-2 rounded"
+              />
+            )}
           </div>
         ))}
 

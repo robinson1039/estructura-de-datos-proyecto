@@ -189,13 +189,9 @@ const EstudiantesIngenieria = () => {
                   <td className="px-4 py-2 text-center">{student.nombre}</td>
                   <td className="px-4 py-2 text-center">{student.apellido}</td>
                   <td className="px-4 py-2 text-center">{student.telefono}</td>
-                  <td className="px-4 py-2 text-center">
-                    {student.semestre_actual}
-                  </td>
-                  <td className="px-4 py-2 text-center">
-                    {student.promedio_acumulado}
-                  </td>
-                  <td className="px-4 py-2 text-center">{student.serial}</td>
+                  <td className="px-4 py-2 text-center">{student.semestre_actual}</td>
+                  <td className="px-4 py-2 text-center">{student.promedio_acumulado}</td>
+                  <td className="px-4 py-2 text-center">{student.serial ? student.serial : "-"}</td>
                   <td className="px-4 py-2 text-center">
                     {student.pc_asignado ? "Sí" : "No"}
                   </td>
