@@ -35,17 +35,17 @@ def es_decimal(valor):
 def create_designStudent():
     data = request.get_json()
     print(data)
-
     cedula = data.get('cedula')
     nombre = data.get('nombre')
     apellido = data.get('apellido')
     telefono = data.get('telefono')
     modalidad_de_estudio = data.get('modalidad_de_estudio')
     cantidad_asignaturas = data.get('cantidad_asignaturas')
-    serial = data.get('serial')
+    fk_serial = data.get('serial')
 
     if not all([cedula, nombre, apellido, telefono, modalidad_de_estudio, cantidad_asignaturas]):
         return jsonify({"error": "Faltan datos requeridos"}), 400
+
     if not solo_numeros(cedula):
         return jsonify({"error": "La cédula solo debe contener números"}), 400
     if not solo_letras(nombre):
@@ -67,7 +67,7 @@ def create_designStudent():
         telefono=telefono,
         modalidad_de_estudio=modalidad_de_estudio,
         cantidad_asignaturas=cantidad_asignaturas,
-        serial=serial or None,
+        fk_serial = fk_serial or None,
     )
     db.session.add(new_designStudent)
     db.session.commit()
@@ -105,9 +105,10 @@ def update_designStudent(id):
             tablet.disponible = False  # Lo marcas como rentado
         else:
             return jsonify({'error': 'La tablet no está disponible'}), 400
-    print("Datos recibidos update", data)
+
 
     db.session.commit()
+
     return jsonify(estudianteDiseño.to_dict()), 200
 
 
